@@ -15,6 +15,12 @@ public class Edge {
         this.cost = cost;
     }
 
+    public Edge(int[] data){
+        this.source = data[0];
+        this.destination = data[1];
+        this.cost = data[2];
+    }
+
     public int getSource() {
         return source;
     }

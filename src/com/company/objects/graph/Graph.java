@@ -1,6 +1,8 @@
 package com.company.objects.graph;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Graph {
     int vertexAmount;
@@ -22,7 +24,7 @@ public class Graph {
             vertices.get(edge.getDestination()).addEdge(reverseEdge);
             //adds a 2-way edge to the vertex specified by the int source in
             //the edge object
-        }else{
+        } else {
             System.out.println("Source or Destination out of range");
         }
     }
@@ -37,8 +39,31 @@ public class Graph {
         }
     }
 
-    public static void main(String[] args){
-        int vertices = 6;
+    public static Graph readGraphFromFile(File file) {
+        Graph graph;
+        try {
+            Scanner reader = new Scanner(file);
+            reader.useDelimiter(",");
+            graph = new Graph(reader.nextInt());
+            while(reader.hasNext()){
+                String[] edgeDataString = reader.nextLine().split(",");
+                int[] edgeData = new int[3];
+                for (int i = 0; i < 3; i++) {
+                    edgeData[i] = Integer.parseInt(edgeDataString[i]);
+                }
+                Edge edge = new Edge(edgeData);
+                graph.addEdge(edge);
+            }
+        }catch(Exception e){
+            System.out.println("There was an error");
+            System.out.println(e);
+            graph = new Graph(1);
+        }
+        return graph;
+    }
+
+    public static void main(String[] args) {
+        /*int vertices = 6;
         Graph graph = new Graph(vertices);
         graph.addEdge(new Edge(0, 1, 4));
         graph.addEdge(new Edge(0, 2, 3));
@@ -49,6 +74,9 @@ public class Graph {
         graph.addEdge(new Edge(4, 0, 4));
         graph.addEdge(new Edge(4, 1, 4));
         graph.addEdge(new Edge(4, 5, 6));
+        graph.printGraph();*/
+        File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
+        Graph graph = readGraphFromFile(graphFile);
         graph.printGraph();
     }
 }
