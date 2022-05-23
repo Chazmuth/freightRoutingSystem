@@ -1,6 +1,7 @@
 package com.company.objects.graph;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -44,7 +45,7 @@ public class Graph {
         try {
             Scanner reader = new Scanner(file);
             reader.useDelimiter(",");
-            graph = new Graph(reader.nextInt());
+            graph = new Graph(Integer.parseInt(reader.nextLine()));
             while(reader.hasNext()){
                 String[] edgeDataString = reader.nextLine().split(",");
                 int[] edgeData = new int[3];
@@ -54,7 +55,7 @@ public class Graph {
                 Edge edge = new Edge(edgeData);
                 graph.addEdge(edge);
             }
-        }catch(Exception e){
+        }catch(FileNotFoundException e){
             System.out.println("There was an error");
             System.out.println(e);
             graph = new Graph(1);
