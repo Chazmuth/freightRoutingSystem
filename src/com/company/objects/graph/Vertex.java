@@ -14,4 +14,10 @@ public class Vertex {
     public void addEdge(Edge edge){
         edges.add(edge);
     }
+
+    public int getId() {
+        return id;
+    }
+
+
 }

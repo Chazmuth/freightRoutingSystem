@@ -64,18 +64,6 @@ public class Graph {
     }
 
     public static void main(String[] args) {
-        /*int vertices = 6;
-        Graph graph = new Graph(vertices);
-        graph.addEdge(new Edge(0, 1, 4));
-        graph.addEdge(new Edge(0, 2, 3));
-        graph.addEdge(new Edge(1, 3, 2));
-        graph.addEdge(new Edge(1, 2, 5));
-        graph.addEdge(new Edge(2, 3, 7));
-        graph.addEdge(new Edge(3, 4, 2));
-        graph.addEdge(new Edge(4, 0, 4));
-        graph.addEdge(new Edge(4, 1, 4));
-        graph.addEdge(new Edge(4, 5, 6));
-        graph.printGraph();*/
         File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
         Graph graph = readGraphFromFile(graphFile);
         graph.printGraph();
