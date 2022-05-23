@@ -125,6 +125,29 @@ class Matrix {
 
     //multiplies one matrix by another and returns the result
 
+    public static Matrix fromArray(double[]x) {
+        Matrix temp = new Matrix(x.length,1);
+        for(int i =0;i<x.length;i++)
+            temp.data[i][0]=x[i];
+        return temp;
+    }
+
+    //makes an matrix from a given array
+
+    public List<Double> toArray() {
+        List<Double> temp= new ArrayList<>()  ;
+        for(int i=0;i<rows;i++)
+        {
+            for(int j=0;j<cols;j++)
+            {
+                temp.add(data[i][j]);
+            }
+        }
+        return temp;
+    }
+
+    //makes a matrix into an array
+
     //activation functions:
 
     public void sigmoid() {
@@ -151,28 +174,5 @@ class Matrix {
 
     //reverse sigmoid function
 
-    public static Matrix fromArray(double[]x)
-    {
-        Matrix temp = new Matrix(x.length,1);
-        for(int i =0;i<x.length;i++)
-            temp.data[i][0]=x[i];
-        return temp;
-    }
-
-    //makes an matrix from a given array
-
-    public List<Double> toArray() {
-        List<Double> temp= new ArrayList<Double>()  ;
-        for(int i=0;i<rows;i++)
-        {
-            for(int j=0;j<cols;j++)
-            {
-                temp.add(data[i][j]);
-            }
-        }
-        return temp;
-    }
-
-    //makes a matrix into an array
 }
 
