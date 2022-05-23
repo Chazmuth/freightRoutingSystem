@@ -8,6 +8,7 @@ public class Vertex {
 
     public Vertex(int id) {
         this.id = id;
+        edges = new ArrayList<>();
     }
 
     public void addEdge(Edge edge){
