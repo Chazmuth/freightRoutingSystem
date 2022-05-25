@@ -17,6 +17,10 @@ public class Graph {
         }
     }
 
+    public ArrayList<Vertex> getVertices() {
+        return vertices;
+    }
+
     public void addEdge(Edge edge) {
         if (edge.getSource() < vertexAmount && edge.getDestination() < vertexAmount) {
             vertices.get(edge.getSource()).addEdge(edge);

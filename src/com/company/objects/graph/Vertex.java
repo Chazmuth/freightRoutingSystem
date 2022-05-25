@@ -19,5 +19,7 @@ public class Vertex {
         return id;
     }
 
-
+    public ArrayList<Edge> getEdges() {
+        return edges;
+    }
 }
