@@ -1,11 +1,10 @@
 package com.company.objects.neuralNetwork.trainingDataGeneration;
 
-import com.company.objects.graph.Edge;
 import com.company.objects.graph.Vertex;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 
-public class RoutingVertex{
+public class RoutingVertex implements Comparator<RoutingVertex>, Comparable<RoutingVertex>{
     Vertex vertex;
     int costFromSource;
     Vertex previous;
@@ -16,6 +15,18 @@ public class RoutingVertex{
         this.previous = previous;
     }
 
+    public Vertex getVertex() {
+        return vertex;
+    }
+
+    public void setCostFromSource(int costFromSource) {
+        this.costFromSource = costFromSource;
+    }
+
+    public void setPrevious(Vertex previous) {
+        this.previous = previous;
+    }
+
     @Override
     public String toString() {
         return "RoutingVertex{" +
@@ -23,5 +34,17 @@ public class RoutingVertex{
                 ", costFromSource=" + costFromSource +
                 ", previous=" + previous +
                 '}';
+    }
+
+    //overides the compareTo method
+    @Override
+    public int compareTo(RoutingVertex routingVertex) {
+        return (this.costFromSource) -(routingVertex.costFromSource);
+    }
+
+    // Overriding the compare method to sort the age
+    @Override
+    public int compare(RoutingVertex RV1, RoutingVertex RV2) {
+        return RV1.costFromSource - RV2.costFromSource;
     }
 }

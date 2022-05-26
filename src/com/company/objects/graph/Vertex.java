@@ -22,4 +22,11 @@ public class Vertex {
     public ArrayList<Edge> getEdges() {
         return edges;
     }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "id=" + id +
+                '}';
+    }
 }

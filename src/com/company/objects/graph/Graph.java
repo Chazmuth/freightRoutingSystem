@@ -22,11 +22,14 @@ public class Graph {
     }
 
     public void addEdge(Edge edge) {
-        if (edge.getSource() < vertexAmount && edge.getDestination() < vertexAmount) {
-            vertices.get(edge.getSource()).addEdge(edge);
+        if (edge.getSource().getId() < vertexAmount
+                && edge.getDestination().getId() < vertexAmount) {
+            vertices.get(edge.getSource().getId()).addEdge(edge);
+            //adds the given edge to the vertex specified by the vertex in the edge
             Edge reverseEdge = new Edge(edge.getDestination(), edge.getSource()
                     , edge.getCost());
-            vertices.get(edge.getDestination()).addEdge(reverseEdge);
+            //creates the reverse edge
+            vertices.get(edge.getDestination().getId()).addEdge(reverseEdge);
             //adds a 2-way edge to the vertex specified by the int source in
             //the edge object
         } else {
