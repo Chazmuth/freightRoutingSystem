@@ -24,6 +24,10 @@ public class RoutingVertex implements Comparator<RoutingVertex>, Comparable<Rout
         return costFromSource;
     }
 
+    public Vertex getPrevious() {
+        return previous;
+    }
+
     public void setCostFromSource(int costFromSource) {
         this.costFromSource = costFromSource;
     }
