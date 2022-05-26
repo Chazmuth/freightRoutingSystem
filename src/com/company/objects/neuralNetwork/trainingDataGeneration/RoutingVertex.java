@@ -5,6 +5,7 @@ import com.company.objects.graph.Vertex;
 import java.util.Comparator;
 
 public class RoutingVertex implements Comparator<RoutingVertex>, Comparable<RoutingVertex>{
+    //implement priority queues when the fucntion works
     Vertex vertex;
     int costFromSource;
     Vertex previous;
@@ -17,6 +18,10 @@ public class RoutingVertex implements Comparator<RoutingVertex>, Comparable<Rout
 
     public Vertex getVertex() {
         return vertex;
+    }
+
+    public int getCostFromSource() {
+        return costFromSource;
     }
 
     public void setCostFromSource(int costFromSource) {

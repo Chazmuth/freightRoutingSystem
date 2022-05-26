@@ -32,4 +32,13 @@ public class Edge {
     public int getCost() {
         return cost;
     }
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "source=" + source +
+                ", destination=" + destination +
+                ", cost=" + cost +
+                '}';
+    }
 }
