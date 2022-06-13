@@ -8,8 +8,6 @@ import com.company.objects.graph.Vertex;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.PriorityQueue;
 
 import static com.company.objects.graph.Graph.readGraphFromFile;
 
@@ -106,6 +104,6 @@ public class DijkstraShortestPath {
     public static void main(String[] args) {
         File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
         Graph graph = readGraphFromFile(graphFile);
-        dijkstra(graph, graph.getVertices().get(1), graph.getVertices().get(7)).printRoute();
+        dijkstra(graph, graph.getVertex(1), graph.getVertex(7)).printRoute();
     }
 }

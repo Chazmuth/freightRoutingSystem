@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Graph {
-    int vertexAmount;
-    ArrayList<Vertex> vertices;
+    private int vertexAmount;
+    private ArrayList<Vertex> vertices;
 
     public Graph(int vertexAmount) {
         this.vertexAmount = vertexAmount;
@@ -20,6 +20,16 @@ public class Graph {
     public ArrayList<Vertex> getVertices() {
         return vertices;
     }
+
+    public Vertex getVertex(int location){
+        try{
+            return this.vertices.get(location);
+        }catch (Exception e){
+            System.out.println("An error occured" + e);
+            return this.vertices.get(0);
+        }
+    }
+
 
     public void addEdge(Edge edge) {
         if (edge.getSource().getId() < vertexAmount

@@ -1,0 +1,5 @@
+Sanitisation:
+only objects of the type that the table contains can be put into the table
+
+Edges:
+start node and end node cannot be the same node
