@@ -1,8 +1,7 @@
 package com.company.UI;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 public class loginScreen {
     private JTextField usernameEntry;
@@ -10,13 +9,16 @@ public class loginScreen {
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton registerButton;
-
+    private JLabel loginSuccessful;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("loginScreen");
         frame.setContentPane(new loginScreen().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         frame.pack();
+        frame.setSize(250, 250);
         frame.setVisible(true);
     }
 
@@ -24,9 +26,15 @@ public class loginScreen {
         loginButton.addActionListener(e -> {
             if (usernameEntry.getText().equals("username") && (new String(passwordField.getPassword())).equals("password")
             ) {
-                System.out.println("login successful");
+                loginSuccessful.setText("login successful");
+                // find out how to close a window in this way of creating windows
             }else{
-                System.out.println("username or password incorrect");
+                try {
+                    loginSuccessful.setText("username or password incorrect");
+
+                }catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 

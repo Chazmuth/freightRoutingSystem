@@ -6,6 +6,8 @@ import com.company.objects.graph.Path;
 import com.company.objects.graph.Vertex;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -101,9 +103,26 @@ public class DijkstraShortestPath {
         return 0;
     }
 
+    public static File generateData() {
+
+        try {
+            File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
+            Writer fileWriter = new FileWriter(graphFile);
+            Graph graph = readGraphFromFile(graphFile);
+            for (int i = 0; i < graph.getVertexAmount(); i++) {
+                Vertex currentVertex = graph.getVertex(i);
+                for (int j = 0; j < currentVertex.getEdges().size(); j++) {
+                    fileWriter.write(dijkstra(graph, graph.getVertex(i), graph.getVertex(currentVertex.getEdges().get(j).getDestination().getId())).getRoute());
+                }
+            }
+        }catch(Exception e){
+            System.out.println("there was an error" + e);
+        }
+    }
+
     public static void main(String[] args) {
         File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
         Graph graph = readGraphFromFile(graphFile);
-        dijkstra(graph, graph.getVertex(1), graph.getVertex(7)).printRoute();
+        System.out.println(dijkstra(graph, graph.getVertex(0), graph.getVertex(7)).getRoute());
     }
 }

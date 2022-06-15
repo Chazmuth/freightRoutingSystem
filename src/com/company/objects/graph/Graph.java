@@ -30,6 +30,9 @@ public class Graph {
         }
     }
 
+    public int getVertexAmount() {
+        return vertexAmount;
+    }
 
     public void addEdge(Edge edge) {
         if (edge.getSource().getId() < vertexAmount

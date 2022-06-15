@@ -2,6 +2,7 @@ package com.company.objects.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.StringJoiner;
 
 public class Path {
     int cost;
@@ -16,10 +17,17 @@ public class Path {
         route.add(vertex);
     }
 
-    public void printRoute(){
+    public String getRoute() {
+        StringJoiner stringJoiner = new StringJoiner(",");
         Collections.reverse(route);
         for (int i = 0; i < this.route.size(); i++) {
-            System.out.print(this.route.get(i).getId() + ",");
+            if (i < this.route.size() - 1) {
+                stringJoiner.add(Integer.toString(this.route.get(i).getId()));
+            } else {
+                stringJoiner.add(Integer.toString(this.route.get(i).getId()));
+            }
         }
+        return stringJoiner.toString();
     }
 }
+
