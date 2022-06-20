@@ -89,6 +89,7 @@ public class DijkstraShortestPath {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getVertex().getId() == target.getId()) {
                 containsVertex = true;
+                break;
             }
         }
         return containsVertex;
@@ -103,7 +104,7 @@ public class DijkstraShortestPath {
         return 0;
     }
 
-    public static File generateData() {
+    /*public static File generateData() {
 
         try {
             File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
@@ -118,7 +119,7 @@ public class DijkstraShortestPath {
         }catch(Exception e){
             System.out.println("there was an error" + e);
         }
-    }
+    }*/
 
     public static void main(String[] args) {
         File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
