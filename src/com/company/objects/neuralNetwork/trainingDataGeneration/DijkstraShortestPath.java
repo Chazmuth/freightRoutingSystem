@@ -1,5 +1,6 @@
 package com.company.objects.neuralNetwork.trainingDataGeneration;
 
+import com.company.databaseFiles.SQLFunctions;
 import com.company.objects.graph.Edge;
 import com.company.objects.graph.Graph;
 import com.company.objects.graph.Path;
@@ -10,8 +11,6 @@ import java.io.FileWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import static com.company.objects.graph.Graph.readGraphFromFile;
 
 public class DijkstraShortestPath {
 
@@ -104,26 +103,38 @@ public class DijkstraShortestPath {
         return 0;
     }
 
-    /*public static File generateData() {
-
+    public static void generateData() {
+        File trainingData;
         try {
-            File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
-            Writer fileWriter = new FileWriter(graphFile);
-            Graph graph = readGraphFromFile(graphFile);
+            trainingData = new File("src/com/company/objects/neuralNetwork/trainingDataGeneration/trainingData");
+            System.out.println("file created");
+        } catch (Exception e1) {
+            System.out.println("An error occurred" + e1);
+            trainingData = null;
+        }
+        try {
+            assert trainingData != null;
+            Writer fileWriter = new FileWriter(trainingData);
+            Graph graph = SQLFunctions.readGraph();
+            int graphSize = graph.getVertexAmount();
             for (int i = 0; i < graph.getVertexAmount(); i++) {
-                Vertex currentVertex = graph.getVertex(i);
-                for (int j = 0; j < currentVertex.getEdges().size(); j++) {
-                    fileWriter.write(dijkstra(graph, graph.getVertex(i), graph.getVertex(currentVertex.getEdges().get(j).getDestination().getId())).getRoute());
+                for (int j = 0; j < graph.getVertexAmount(); j++) {
+                    if (i != j) {
+                        System.out.println(dijkstra(graph, graph.getVertex(i), graph.getVertex(j)).getRoute());
+                        fileWriter.write(dijkstra(graph, graph.getVertex(i), graph.getVertex(j)).getRoute() + "\n");
+                        System.out.println("written");
+                    }
                 }
             }
-        }catch(Exception e){
-            System.out.println("there was an error" + e);
+            fileWriter.close();
+        } catch (Exception e2) {
+            System.out.println("there was an error" + e2);
         }
-    }*/
+    }
 
     public static void main(String[] args) {
-        File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
-        Graph graph = readGraphFromFile(graphFile);
-        System.out.println(dijkstra(graph, graph.getVertex(0), graph.getVertex(7)).getRoute());
+        System.out.println(dijkstra(SQLFunctions.readGraph(), new Vertex(1), new Vertex(0)));
+        generateData();
+
     }
 }

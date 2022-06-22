@@ -1,6 +1,7 @@
 package com.company.databaseFiles;
 
 
+import com.company.objects.graph.Edge;
 import com.company.objects.graph.Graph;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -10,12 +11,9 @@ public class SQLFunctions {
 
     protected static String databaseLocation = (System.getProperty("user.dir") + "\\freightRoutingSystemDatabase.accdb");
 
-    public static ConnectionStatementPair<> init(){
-        //https://stackoverflow.com/questions/457629/how-to-return-multiple-objects-from-a-java-method
+    public static ConnectionStatementPair init() {
         //a method to return the connection and statement for each method to make it need less code
-    }
-
-    public static void getTable(String tableName) {
+        ConnectionStatementPair output;
         try {
             Connection connection = DriverManager.getConnection("jdbc:ucanaccess://" + databaseLocation, "", "");
             // sets up a connection with the database
@@ -23,37 +21,66 @@ public class SQLFunctions {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             //forms a statement which is used to format the results from your SQL
 
-            String sql = "SELECT * FROM " + tableName; //this is just the sql command
+            output = new ConnectionStatementPair(connection, statement);
+        }catch (Exception e){
+            System.out.println("Error in the SQL class: " + e);
+            output = new ConnectionStatementPair(null, null);
+        }
+        return output;
+    }
 
-            ResultSet resultSet = statement.executeQuery(sql);
+    public static void getTable(String tableName) {
+        try {
+            ConnectionStatementPair connectionStatementPair = init();
+
+            String sql = "SELECT * FROM " + tableName; //this is just the sql command
+            ResultSet resultSet = connectionStatementPair.getStatement().executeQuery(sql);
             //executes the command
 
             //loops through the result set printing the result
-            while(resultSet.next()){
-                System.out.println("jobID: " + resultSet.getString("jobID"));
-                System.out.println("userID: " + resultSet.getString("userID"));
-                System.out.println("startDate: " + resultSet.getDate("startDate"));
+            while (resultSet.next()) {
+                for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
+                    if (i > 1) System.out.print(",  ");
+                    String columnValue = resultSet.getString(i);
+                    System.out.print(resultSet.getMetaData().getColumnName(i) + " " + columnValue);
+                }
+                System.out.println("\n");
             }
 
             //closing connections so there are no deadlocks
             resultSet.close();
-            connection.close();
+            connectionStatementPair.closeConnection();
 
         } catch (Exception e) {
             System.out.println("Error in the SQL class: " + e);
         }
     }
 
-    public static Graph readGraph(){
+    public static Graph readGraph() {
         Graph graph;
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:ucanaccess://" + databaseLocation, "", "");
-            // sets up a connection with the database
+        try {
+            ConnectionStatementPair connectionStatementPair = init();
 
-            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            //forms a statement which is used to format the results from your SQL
+            String getTableSQL = "SELECT * FROM Edges";
+            ResultSet resultSet = connectionStatementPair.getStatement().executeQuery(getTableSQL);
 
-        }catch (Exception e){
+            String countSQL = "SELECT COUNT(*) FROM Edges AS count";
+            ResultSet countResultSet = connectionStatementPair.getStatement().executeQuery(countSQL);
+
+            countResultSet.next();
+            graph = new Graph(countResultSet.getInt(1));
+
+            while(resultSet.next()){
+                int source = Integer.parseInt(resultSet.getString("StartNode")) - 1;
+                int destination = Integer.parseInt(resultSet.getString("EndNode")) - 1;
+                StringBuilder stringCost = new StringBuilder(resultSet.getString("Cost"));
+                stringCost.delete(stringCost.length()-5, stringCost.length());
+                int cost = Integer.parseInt(stringCost.toString());
+                int[] edgeData = {source, destination, cost};
+                graph.addEdge(new Edge(edgeData));
+            }
+
+        } catch (Exception e) {
             System.out.println("Error in the SQL class: " + e);
             graph = new Graph(0);
         }
@@ -61,7 +88,7 @@ public class SQLFunctions {
     }
 
     public static void main(String[] args) {
-        System.out.println(databaseLocation);
-        getTable("Jobs");
+        getTable("Edges");
+        readGraph().printGraph();
     }
 }
