@@ -1,5 +1,7 @@
 package com.company.objects.neuralNetwork;
 
+import com.company.objects.graph.Graph;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,18 @@ class Matrix {
         }
     }
 
+    public Matrix() {
+
+    }
+
     //initilises a matrix (mathematic 2d number array) - which is essential for machine learning
     // with random values between -1 and 1
-    
+
+    //creates an adjacency matrix from a graph (eventually extend the graph object to be 3 adjacency
+    // matrices for each type of weight
+    // https://www.tutorialspoint.com/weighted-graph-representation-in-data-structure
+    // https://towardsdatascience.com/graph-theory-and-deep-learning-know-hows-6556b0e9891b
+
     public void add(double scaler){
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
