@@ -12,6 +12,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.company.databaseFiles.SQLFunctions.readGraph;
+
 public class DijkstraShortestPath {
 
     public static Path dijkstra(Graph graph, Vertex source, Vertex destination) {
@@ -20,6 +22,7 @@ public class DijkstraShortestPath {
         ArrayList<RoutingVertex> visited = new ArrayList<>();
         ArrayList<RoutingVertex> unvisited = new ArrayList<>();
         ArrayList<Vertex> graphVertecies = graph.getVertices();
+
 
         for (int i = 0; i < graphVertecies.size(); i++) {
             if (graphVertecies.get(i) == source) {
@@ -44,7 +47,10 @@ public class DijkstraShortestPath {
 
         RoutingVertex current;
 
+        int count = 0;
         while (unvisited.size() > 0) {
+            System.out.println(count);
+            count++;
             Collections.sort(unvisited);
             current = unvisited.get(0);
             //sorts the unvisited list so that the
@@ -115,7 +121,7 @@ public class DijkstraShortestPath {
         try {
             assert trainingData != null;
             Writer fileWriter = new FileWriter(trainingData);
-            Graph graph = SQLFunctions.readGraph();
+            Graph graph = readGraph();
             int graphSize = graph.getVertexAmount();
             for (int i = 0; i < graph.getVertexAmount(); i++) {
                 for (int j = 0; j < graph.getVertexAmount(); j++) {
@@ -133,7 +139,8 @@ public class DijkstraShortestPath {
     }
 
     public static void main(String[] args) {
-        System.out.println(dijkstra(SQLFunctions.readGraph(), new Vertex(1), new Vertex(0)));
+        Graph graph = SQLFunctions.readGraph();
+        System.out.println(dijkstra(graph, new Vertex(0), new Vertex(7)));
         generateData();
 
     }

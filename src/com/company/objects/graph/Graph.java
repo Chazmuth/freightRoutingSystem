@@ -1,5 +1,8 @@
 package com.company.objects.graph;
 
+import com.company.Main;
+//import com.company.objects.neuralNetwork;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -50,6 +53,18 @@ public class Graph {
         }
     }
 
+    public int getEdgeCost(int sourceId, int destinationId){
+        Vertex source = getVertex(sourceId);
+        int cost = 0;
+        for (int i = 0; i < source.getEdges().size(); i++) {
+            Edge edge = source.getEdges().get(i);
+            if(edge.getDestination().getId() == destinationId){
+                cost = edge.getCost();
+            }
+        }
+        return cost;
+    }
+
     public void printGraph() {
         for (int i = 0; i < vertexAmount; i++) {
             for (int j = 0; j < vertices.get(i).edges.size(); j++) {
@@ -86,6 +101,5 @@ public class Graph {
     public static void main(String[] args) {
         File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
         Graph graph = readGraphFromFile(graphFile);
-        graph.printGraph();
     }
 }
