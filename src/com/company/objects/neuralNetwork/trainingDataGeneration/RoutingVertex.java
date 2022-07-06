@@ -1,7 +1,9 @@
 package com.company.objects.neuralNetwork.trainingDataGeneration;
 
+import com.company.objects.graph.Edge;
 import com.company.objects.graph.Vertex;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class RoutingVertex implements Comparator<RoutingVertex>, Comparable<RoutingVertex>{
@@ -35,6 +37,8 @@ public class RoutingVertex implements Comparator<RoutingVertex>, Comparable<Rout
     public void setPrevious(Vertex previous) {
         this.previous = previous;
     }
+
+    //returns an arraylist of routing vertex of the nodes that neighbours the given routing vertex
 
     @Override
     public String toString() {

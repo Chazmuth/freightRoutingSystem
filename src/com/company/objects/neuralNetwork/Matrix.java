@@ -1,5 +1,6 @@
 package com.company.objects.neuralNetwork;
 
+import com.company.databaseFiles.SQLFunctions;
 import com.company.objects.graph.Graph;
 
 import java.util.ArrayList;
@@ -9,12 +10,6 @@ import java.util.List;
 class Matrix {
     double[][] data;
     int rows, cols;
-
-
-    public static void main(String[] args) {
-        Matrix matrix = new Matrix(5, 4);
-        System.out.println(matrix);
-    }
 
     public Matrix(int rows, int cols) {
         data = new double[rows][cols];

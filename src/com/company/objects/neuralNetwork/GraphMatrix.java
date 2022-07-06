@@ -1,9 +1,16 @@
 package com.company.objects.neuralNetwork;
 
+import com.company.databaseFiles.SQLFunctions;
 import com.company.objects.graph.Graph;
 
 public class GraphMatrix extends Matrix {
     Graph graph;
+
+    public static void main(String[] args) {
+        Graph graph = SQLFunctions.readGraph();
+        GraphMatrix adjacencyMatrix = new GraphMatrix(graph);
+        System.out.println(adjacencyMatrix);
+    }
 
     public GraphMatrix(Graph graph) {
         this.graph = graph;

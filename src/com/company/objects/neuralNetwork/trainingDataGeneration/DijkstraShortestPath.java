@@ -25,11 +25,14 @@ public class DijkstraShortestPath {
 
 
         for (int i = 0; i < graphVertecies.size(); i++) {
-            if (graphVertecies.get(i) == source) {
+            if (graphVertecies.get(i).getId() == source.getId()) {
                 unvisited.add(new RoutingVertex(graphVertecies.get(i), 0, null));
             } else {
                 unvisited.add(new RoutingVertex(graphVertecies.get(i), Integer.MAX_VALUE, null));
             }
+        }
+        for (int i = 0; i < unvisited.size(); i++) {
+            System.out.println(unvisited.get(i));
         }
         //adds all vertecies to the unvisted graph, if
         //it is the source, the cost is 0,
@@ -66,11 +69,8 @@ public class DijkstraShortestPath {
                     int routingVertexLocation = getRoutingVertex(unvisited, currentEdges.get(i).getDestination().getId());
 
                     if (cost < unvisited.get(routingVertexLocation).getCostFromSource()) {
-                        RoutingVertex updatedRoutingVertex = unvisited.get(routingVertexLocation);
-                        updatedRoutingVertex.setCostFromSource(cost);
-                        updatedRoutingVertex.setPrevious(current.getVertex());
-                        unvisited.remove(routingVertexLocation);
-                        unvisited.add(updatedRoutingVertex);
+                        unvisited.get(routingVertexLocation).setCostFromSource(cost);
+                        unvisited.get(routingVertexLocation).setPrevious(current.getVertex());
                     }
                 }
             }
@@ -81,11 +81,14 @@ public class DijkstraShortestPath {
             }
         }
         current = visited.get(getRoutingVertex(visited, destination.getId()));
-        do {
+        while (true) {
             path.addVertex(current.getVertex());
-            current = visited.get(getRoutingVertex(visited, current.getPrevious().getId()));
-        } while (!(current.equals(visited.get(getRoutingVertex(visited, source.getId())))));
-        path.addVertex(current.getVertex());
+            if (current.getPrevious() != null) {
+                current = visited.get(getRoutingVertex(visited, current.getPrevious().getId()));
+            }else{
+                break;
+            }
+        }
         return path;
     }
 
@@ -140,7 +143,7 @@ public class DijkstraShortestPath {
 
     public static void main(String[] args) {
         Graph graph = SQLFunctions.readGraph();
-        System.out.println(dijkstra(graph, new Vertex(0), new Vertex(7)));
+        System.out.println(dijkstra(graph, new Vertex(0), new Vertex(7)).getRoute());
         generateData();
 
     }

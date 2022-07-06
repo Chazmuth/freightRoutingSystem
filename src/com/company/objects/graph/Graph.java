@@ -1,8 +1,5 @@
 package com.company.objects.graph;
 
-import com.company.Main;
-//import com.company.objects.neuralNetwork;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -99,7 +96,6 @@ public class Graph {
     }
 
     public static void main(String[] args) {
-        File graphFile = new File("src/com/company/files/prototype/prototypeGraph");
-        Graph graph = readGraphFromFile(graphFile);
+
     }
 }
