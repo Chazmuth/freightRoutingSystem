@@ -14,7 +14,7 @@ public class GraphMatrix extends Matrix {
 
     public GraphMatrix(Graph graph) {
         this.graph = graph;
-        int graphSize = graph.getVertexAmount();
+        int graphSize = graph.getVertexAmount()-1;
         this.rows = graphSize;
         this.cols = graphSize;
         this.data = new double[rows][cols];

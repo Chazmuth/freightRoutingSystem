@@ -24,15 +24,12 @@ public class DijkstraShortestPath {
         ArrayList<Vertex> graphVertecies = graph.getVertices();
 
 
-        for (int i = 0; i < graphVertecies.size(); i++) {
-            if (graphVertecies.get(i).getId() == source.getId()) {
-                unvisited.add(new RoutingVertex(graphVertecies.get(i), 0, null));
+        for (Vertex graphVertex : graphVertecies) {
+            if (graphVertex.getId() == source.getId()) {
+                unvisited.add(new RoutingVertex(graphVertex, 0, null));
             } else {
-                unvisited.add(new RoutingVertex(graphVertecies.get(i), Integer.MAX_VALUE, null));
+                unvisited.add(new RoutingVertex(graphVertex, Integer.MAX_VALUE, null));
             }
-        }
-        for (int i = 0; i < unvisited.size(); i++) {
-            System.out.println(unvisited.get(i));
         }
         //adds all vertecies to the unvisted graph, if
         //it is the source, the cost is 0,
@@ -50,10 +47,7 @@ public class DijkstraShortestPath {
 
         RoutingVertex current;
 
-        int count = 0;
         while (unvisited.size() > 0) {
-            System.out.println(count);
-            count++;
             Collections.sort(unvisited);
             current = unvisited.get(0);
             //sorts the unvisited list so that the
@@ -63,10 +57,10 @@ public class DijkstraShortestPath {
 
             ArrayList<Edge> currentEdges = current.getVertex().getEdges();
             //makes an arraylist with all of the current vertex's edges
-            for (int i = 0; i < currentEdges.size(); i++) {
+            for (Edge currentEdge : currentEdges) {
                 if (!(contains(visited, current.getVertex()))) {
-                    int cost = currentEdges.get(i).getCost() + current.getCostFromSource();
-                    int routingVertexLocation = getRoutingVertex(unvisited, currentEdges.get(i).getDestination().getId());
+                    int cost = currentEdge.getCost() + current.getCostFromSource();
+                    int routingVertexLocation = getRoutingVertex(unvisited, currentEdge.getDestination().getId());
 
                     if (cost < unvisited.get(routingVertexLocation).getCostFromSource()) {
                         unvisited.get(routingVertexLocation).setCostFromSource(cost);
@@ -122,16 +116,15 @@ public class DijkstraShortestPath {
             trainingData = null;
         }
         try {
-            assert trainingData != null;
+            System.out.println("here");
             Writer fileWriter = new FileWriter(trainingData);
             Graph graph = readGraph();
-            int graphSize = graph.getVertexAmount();
-            for (int i = 0; i < graph.getVertexAmount(); i++) {
-                for (int j = 0; j < graph.getVertexAmount(); j++) {
+            for (int i = 0; i < graph.getVertexAmount()-1; i++) {
+                for (int j = 0; j < graph.getVertexAmount()-1; j++) {
                     if (i != j) {
                         System.out.println(dijkstra(graph, graph.getVertex(i), graph.getVertex(j)).getRoute());
                         fileWriter.write(dijkstra(graph, graph.getVertex(i), graph.getVertex(j)).getRoute() + "\n");
-                        System.out.println("written");
+                        System.out.println("written "  +i + " to " + j);
                     }
                 }
             }
@@ -142,9 +135,6 @@ public class DijkstraShortestPath {
     }
 
     public static void main(String[] args) {
-        Graph graph = SQLFunctions.readGraph();
-        System.out.println(dijkstra(graph, new Vertex(0), new Vertex(7)).getRoute());
         generateData();
-
     }
 }
