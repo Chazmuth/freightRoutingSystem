@@ -13,8 +13,8 @@ public class Path {
         this.route = new ArrayList<>();
     }
 
-    public void addVertex(Vertex vertex) {
-        route.add(vertex);
+    public void addVertex(Vertex node) {
+        route.add(node);
     }
 
     public String getRoute() {

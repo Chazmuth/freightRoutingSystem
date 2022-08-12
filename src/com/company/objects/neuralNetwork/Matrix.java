@@ -11,19 +11,33 @@ class Matrix {
     double[][] data;
     int rows, cols;
 
-    public Matrix(int rows, int cols) {
+    public Matrix(int rows, int cols, String type) {
         data = new double[rows][cols];
         this.rows = rows;
         this.cols = cols;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                data[i][j] = Math.random() * 2 - 1;
+        if (type.equals("r")/*inits w/ random number*/) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    data[i][j] = Math.random() * 2 - 1;
+                }
+            }
+        }
+        if(type.equals("z")/*inits with 0s*/){
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    data[i][j] = 0;
+                }
             }
         }
     }
 
-    //initilises a matrix (mathematic 2d number array) - which is essential for machine learning
-    // with random values between -1 and 1
+    //initialises a matrix (mathematic 2d number array) - which is essential for machine learning
+    // with random values between -1 and 1 if the type is "R" (random), otherwise it is
+    //initialised empty
+
+    //NOTE FOR FUCNTION:
+    //empty matrix should only be used when the contents is predetermied, weights
+    //hidden layers, and biases should be random
 
     public Matrix() {
 
@@ -56,6 +70,18 @@ class Matrix {
 
     //adds a matrix to this one
 
+    public static Matrix subtract(Matrix a, Matrix b) {
+        Matrix temp = new Matrix(a.rows, a.cols, "n");
+        for (int i = 0; i < a.rows; i++) {
+            for (int j = 0; j < a.cols; j++) {
+                temp.data[i][j] = a.data[i][j] - b.data[i][j];
+            }
+        }
+        return temp;
+    }
+
+    //takes one matrix from another and returns the result
+
     public void multiply(Matrix a) {
         for (int i = 0; i < a.rows; i++) {
             for (int j = 0; j < a.cols; j++) {
@@ -77,20 +103,30 @@ class Matrix {
 
     //multiplies every value in the matrix by a number a
 
-    public static Matrix subtract(Matrix a, Matrix b) {
-        Matrix temp = new Matrix(a.rows, a.cols);
-        for (int i = 0; i < a.rows; i++) {
-            for (int j = 0; j < a.cols; j++) {
-                temp.data[i][j] = a.data[i][j] - b.data[i][j];
+    public void power(double power){
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                data[i][j] = Math.pow(data[i][j], power);
             }
         }
-        return temp;
     }
 
-    //takes one matrix from another and returns the result
+    //raises to the power of then double power
+
+    public double sum(){
+        double x = 0;
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                x += data[i][j];
+            }
+        }
+        return x;
+    }
+
+    //makes a sum of the matrix
 
     public static Matrix transpose(Matrix matrix) {
-        Matrix temp = new Matrix(matrix.cols, matrix.rows);
+        Matrix temp = new Matrix(matrix.cols, matrix.rows, "n");
         for (int i = 0; i < matrix.rows; i++) {
             for (int j = 0; j < matrix.cols; j++) {
                 temp.data[j][i] = matrix.data[i][j];
@@ -104,7 +140,7 @@ class Matrix {
     //the result
 
     public static Matrix multiply(Matrix a, Matrix b) {
-        Matrix temp = new Matrix(a.rows, b.cols);
+        Matrix temp = new Matrix(a.rows, b.cols, "n");
         for (int i = 0; i < temp.rows; i++) {
             for (int j = 0; j < temp.cols; j++) {
                 double sum = 0;
@@ -120,7 +156,7 @@ class Matrix {
     //multiplies one matrix by another and returns the result
 
     public static Matrix fromArray(double[] x) {
-        Matrix temp = new Matrix(x.length, 1);
+        Matrix temp = new Matrix(x.length, 1, "n");
         for (int i = 0; i < x.length; i++)
             temp.data[i][0] = x[i];
         return temp;
@@ -154,7 +190,7 @@ class Matrix {
     //a given range, if you put in 100, it would given an output of about 1
 
     public Matrix dsigmoid() {
-        Matrix temp = new Matrix(rows, cols);
+        Matrix temp = new Matrix(rows, cols, "n");
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++)
                 temp.data[i][j] = this.data[i][j] * (1 - this.data[i][j]);
@@ -163,9 +199,6 @@ class Matrix {
     }
 
     //reverse sigmoid function
-
-    //toString Function
-
 
     @Override
     public String toString() {

@@ -12,8 +12,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static com.company.databaseFiles.SQLFunctions.readGraph;
-
 public class DijkstraShortestPath {
 
     public static Path dijkstra(Graph graph, Vertex source, Vertex destination) {
@@ -23,12 +21,11 @@ public class DijkstraShortestPath {
         ArrayList<RoutingVertex> unvisited = new ArrayList<>();
         ArrayList<Vertex> graphVertecies = graph.getVertices();
 
-
-        for (Vertex graphVertex : graphVertecies) {
-            if (graphVertex.getId() == source.getId()) {
-                unvisited.add(new RoutingVertex(graphVertex, 0, null));
+        for (int i = 0; i < graphVertecies.size(); i++) {
+            if (graphVertecies.get(i) == source) {
+                unvisited.add(new RoutingVertex(graphVertecies.get(i), 0, null));
             } else {
-                unvisited.add(new RoutingVertex(graphVertex, Integer.MAX_VALUE, null));
+                unvisited.add(new RoutingVertex(graphVertecies.get(i), Integer.MAX_VALUE, null));
             }
         }
         //adds all vertecies to the unvisted graph, if
@@ -57,14 +54,17 @@ public class DijkstraShortestPath {
 
             ArrayList<Edge> currentEdges = current.getVertex().getEdges();
             //makes an arraylist with all of the current vertex's edges
-            for (Edge currentEdge : currentEdges) {
+            for (int i = 0; i < currentEdges.size(); i++) {
                 if (!(contains(visited, current.getVertex()))) {
-                    int cost = currentEdge.getCost() + current.getCostFromSource();
-                    int routingVertexLocation = getRoutingVertex(unvisited, currentEdge.getDestination().getId());
+                    int cost = currentEdges.get(i).getCost() + current.getCostFromSource();
+                    int routingVertexLocation = getRoutingVertex(unvisited, currentEdges.get(i).getDestination().getId());
 
                     if (cost < unvisited.get(routingVertexLocation).getCostFromSource()) {
-                        unvisited.get(routingVertexLocation).setCostFromSource(cost);
-                        unvisited.get(routingVertexLocation).setPrevious(current.getVertex());
+                        RoutingVertex updatedRoutingVertex = unvisited.get(routingVertexLocation);
+                        updatedRoutingVertex.setCostFromSource(cost);
+                        updatedRoutingVertex.setPrevious(current.getVertex());
+                        unvisited.remove(routingVertexLocation);
+                        unvisited.add(updatedRoutingVertex);
                     }
                 }
             }
@@ -75,14 +75,11 @@ public class DijkstraShortestPath {
             }
         }
         current = visited.get(getRoutingVertex(visited, destination.getId()));
-        while (true) {
+        do {
             path.addVertex(current.getVertex());
-            if (current.getPrevious() != null) {
-                current = visited.get(getRoutingVertex(visited, current.getPrevious().getId()));
-            }else{
-                break;
-            }
-        }
+            current = visited.get(getRoutingVertex(visited, current.getPrevious().getId()));
+        } while (!(current.equals(visited.get(getRoutingVertex(visited, source.getId())))));
+        path.addVertex(current.getVertex());
         return path;
     }
 
@@ -116,15 +113,16 @@ public class DijkstraShortestPath {
             trainingData = null;
         }
         try {
-            System.out.println("here");
+            assert trainingData != null;
             Writer fileWriter = new FileWriter(trainingData);
-            Graph graph = readGraph();
-            for (int i = 0; i < graph.getVertexAmount()-1; i++) {
-                for (int j = 0; j < graph.getVertexAmount()-1; j++) {
+            Graph graph = SQLFunctions.readGraph();
+            int graphSize = graph.getVertexAmount();
+            for (int i = 0; i < graph.getVertexAmount(); i++) {
+                for (int j = 0; j < graph.getVertexAmount(); j++) {
                     if (i != j) {
                         System.out.println(dijkstra(graph, graph.getVertex(i), graph.getVertex(j)).getRoute());
                         fileWriter.write(dijkstra(graph, graph.getVertex(i), graph.getVertex(j)).getRoute() + "\n");
-                        System.out.println("written "  +i + " to " + j);
+                        System.out.println("written");
                     }
                 }
             }
@@ -135,6 +133,8 @@ public class DijkstraShortestPath {
     }
 
     public static void main(String[] args) {
+        System.out.println(dijkstra(SQLFunctions.readGraph(), new Vertex(1), new Vertex(0)));
         generateData();
+
     }
 }
