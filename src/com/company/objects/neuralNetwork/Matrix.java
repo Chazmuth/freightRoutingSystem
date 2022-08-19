@@ -153,6 +153,16 @@ class Matrix {
         return temp;
     }
 
+    public static Matrix flatMutliply(Matrix a, Matrix b){
+        Matrix temp = new Matrix(a.rows, b.rows, "n");
+        for (int i = 0; i < b.rows; i++) {
+            for (int j = 0; j < a.rows; j++) {
+                temp.data[i][j] = b.data[0][j]*a.data[0][i];
+            }
+        }
+        return temp;
+    }
+
     //multiplies one matrix by another and returns the result
 
     public static Matrix fromArray(double[] x) {
