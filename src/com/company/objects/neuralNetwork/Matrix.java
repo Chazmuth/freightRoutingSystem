@@ -1,8 +1,5 @@
 package com.company.objects.neuralNetwork;
 
-import com.company.databaseFiles.SQLFunctions;
-import com.company.objects.graph.Graph;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +19,7 @@ class Matrix {
                 }
             }
         }
-        if(type.equals("z")/*inits with 0s*/){
+        if (type.equals("z")/*inits with 0s*/) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     data[i][j] = 0;
@@ -54,16 +51,17 @@ class Matrix {
     //adds a double to every number in this matrix
 
     public void add(Matrix matrix) {
-        if (cols != matrix.cols || rows != matrix.rows) {
-            System.out.println("Shape Mismatch");
-            return;
-        }
-        // checks the two matrices are the same size,
-        // as one cannot add 2 arrays of
-        // different dimensions
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                this.data[i][j] += matrix.data[i][j];
+        if (matrix.rows == 1) {
+            for (int i = 0; i < this.rows; i++) {
+                for (int j = 0; j < this.cols; j++) {
+                    this.data[i][j] += matrix.data[0][j];
+                }
+            }
+        } else {
+            for (int i = 0; i < this.rows; i++) {
+                for (int j = 0; j < this.cols; j++) {
+                    this.data[i][j] += matrix.data[i][j];
+                }
             }
         }
     }
@@ -103,7 +101,7 @@ class Matrix {
 
     //multiplies every value in the matrix by a number a
 
-    public void power(double power){
+    public void power(double power) {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 data[i][j] = Math.pow(data[i][j], power);
@@ -113,7 +111,7 @@ class Matrix {
 
     //raises to the power of then double power
 
-    public double sum(){
+    public double sum() {
         double x = 0;
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -153,11 +151,11 @@ class Matrix {
         return temp;
     }
 
-    public static Matrix flatMutliply(Matrix a, Matrix b){
+    public static Matrix flatMutliply(Matrix a, Matrix b) {
         Matrix temp = new Matrix(a.rows, b.rows, "n");
         for (int i = 0; i < b.rows; i++) {
             for (int j = 0; j < a.rows; j++) {
-                temp.data[i][j] = b.data[0][j]*a.data[0][i];
+                temp.data[i][j] = b.data[0][j] * a.data[0][i];
             }
         }
         return temp;

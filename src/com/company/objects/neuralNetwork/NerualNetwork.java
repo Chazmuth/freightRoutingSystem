@@ -22,17 +22,18 @@ public class NerualNetwork {
     }
 
     public Matrix feedForward(Matrix inputMatrix) {
-        if (inputMatrix.rows == 1 && inputMatrix.cols == this.inputSize) {
-            for (int i = 0; i < weights.size(); i++) {
-                this.input = inputMatrix;
-                inputMatrix = Matrix.multiply(inputMatrix, weights.get(i));
-                inputMatrix.add(biases.get(i));
-                inputMatrix.sigmoid();
-                this.hiddenLayerStore.add(inputMatrix);
-            }
+        for (int i = 0; i < weights.size(); i++) {
+            this.input = inputMatrix;
+            inputMatrix = Matrix.multiply(inputMatrix, weights.get(i));
+            inputMatrix.add(biases.get(i));
+            inputMatrix.sigmoid();
+            this.hiddenLayerStore.add(inputMatrix);
+
+            //not outputing a 1X1 matrix as it should in the given case in main
         }
         return inputMatrix;
     }
+
 
     public double error(Matrix result, Matrix expectedResult) {
         Matrix resultMinusExpected = Matrix.subtract(result, expectedResult);
@@ -70,6 +71,8 @@ public class NerualNetwork {
             double error = 0;
             for (int j = 0; j < traingingDataX.size(); j++) {
                 Matrix result = feedForward(traingingDataX.get(j));
+                System.out.println("RESULT");
+                System.out.println(result);
                 Matrix expectedResult = traingingDataY.get(j);
                 error += error(result, expectedResult);
                 backwardPropagation(result, expectedResult, learningRate);
@@ -78,8 +81,8 @@ public class NerualNetwork {
         }
     }
 
-    public static void main(String[] args){
-        NerualNetwork net = new NerualNetwork(2, 0, 10, 1);
+    public static void main(String[] args) {
+        NerualNetwork net = new NerualNetwork(2, 0, 4, 1);
 
         ArrayList<Matrix> traingingDataX = new ArrayList<>();
         Matrix xin = Matrix.fromArray(new double[]{0, 0});
