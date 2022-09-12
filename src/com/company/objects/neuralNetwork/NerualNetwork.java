@@ -24,7 +24,7 @@ public class NerualNetwork {
     public Matrix feedForward(Matrix inputMatrix) {
         for (int i = 0; i < weights.size(); i++) {
             this.input = inputMatrix;
-            inputMatrix = Matrix.multiply(inputMatrix, weights.get(i));
+            inputMatrix = Matrix.dot(inputMatrix, weights.get(i));
             inputMatrix.add(biases.get(i));
             inputMatrix.sigmoid();
             this.hiddenLayerStore.add(inputMatrix);
@@ -45,11 +45,11 @@ public class NerualNetwork {
         Matrix derivativeBiases2 = Matrix.subtract(result, expectedResult);
         derivativeBiases2.multiply(result.dsigmoid().dsigmoid());
 
-        Matrix derivativeWeights2 = Matrix.flatMutliply(derivativeBiases2, this.hiddenLayerStore.get(0));
+        Matrix derivativeWeights2 = Matrix.dot(derivativeBiases2, this.hiddenLayerStore.get(0));
 
-        Matrix derivativeBiases1 = Matrix.multiply(Matrix.multiply(derivativeBiases2, this.weights.get(1)), this.hiddenLayerStore.get(0).dsigmoid().dsigmoid());
+        Matrix derivativeBiases1 = Matrix.dot(Matrix.multiply(derivativeBiases2, this.weights.get(1)), this.hiddenLayerStore.get(0).dsigmoid().dsigmoid());
 
-        Matrix derivativeWeights1 = Matrix.flatMutliply(derivativeBiases1, this.input);
+        Matrix derivativeWeights1 = Matrix.dot(derivativeBiases1, this.input);
 
         //gradient decente
         derivativeBiases1.multiply(-learningRate);

@@ -151,22 +151,23 @@ class Matrix {
         return temp;
     }
 
-    public static Matrix flatMutliply(Matrix a, Matrix b) {
-        Matrix temp = new Matrix(a.rows, b.rows, "n");
-        for (int i = 0; i < b.rows; i++) {
-            for (int j = 0; j < a.rows; j++) {
-                temp.data[i][j] = b.data[0][j] * a.data[0][i];
+    public static Matrix dot(Matrix a, Matrix b){
+        Matrix result = new Matrix(a.rows, b.cols, "n");
+        for (int i = 0; i < b.cols; i++) {
+            double sum = 0;
+            for (int j = 0; j < a.cols; j++) {
+                sum+=a.data[0][j]*b.data[j][i];
             }
+            result.data[0][i] = sum;
         }
-        return temp;
+        return result;
     }
-
     //multiplies one matrix by another and returns the result
 
     public static Matrix fromArray(double[] x) {
-        Matrix temp = new Matrix(x.length, 1, "n");
+        Matrix temp = new Matrix(1, x.length, "n");
         for (int i = 0; i < x.length; i++)
-            temp.data[i][0] = x[i];
+            temp.data[0][i] = x[i];
         return temp;
     }
 
@@ -213,4 +214,6 @@ class Matrix {
         return Arrays.deepToString(this.data).replace("], ", "]\n").replace("[[", "[").replace("]]", "]");
     }
 }
+
+
 
