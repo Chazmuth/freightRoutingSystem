@@ -43,12 +43,13 @@ public class NerualNetwork {
     }
 
     public void backwardPropagation(Matrix result, Matrix expectedResult, double learningRate) {
-        Matrix derivativeBiases2 = Matrix.subtract(result, expectedResult);
-        derivativeBiases2.multiply(result.dsigmoid().dsigmoid());
+        /*Matrix derivativeBiases2 = Matrix.subtract(result, expectedResult);
+        derivativeBiases2 = Matrix.dot(derivativeBiases2, result.dsigmoid().dsigmoid());
 
         Matrix derivativeWeights2 = Matrix.dot(derivativeBiases2, this.hiddenLayerStore.get(0));
 
-        Matrix derivativeBiases1 = Matrix.dot(Matrix.multiply(derivativeBiases2, this.weights.get(1)), this.hiddenLayerStore.get(0).dsigmoid().dsigmoid());
+        Matrix derivativeBiases1 = Matrix.dot(Matrix.dot(derivativeBiases2, this.weights.get(1)),
+                this.hiddenLayerStore.get(0).dsigmoid().dsigmoid());
 
         Matrix derivativeWeights1 = Matrix.dot(derivativeBiases1, this.input);
 
@@ -63,7 +64,9 @@ public class NerualNetwork {
         this.biases.get(1).add(derivativeBiases2);
 
         derivativeWeights2.multiply(-learningRate);
-        this.weights.get(1).add(derivativeWeights2);
+        this.weights.get(1).add(derivativeWeights2);*/
+
+        Matrix derivativeWeights1 = new Matrix()
     }
 
     public void train(int epochs, double learningRate, ArrayList<Matrix> traingingDataX,
