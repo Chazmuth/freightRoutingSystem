@@ -1,5 +1,6 @@
 package com.company.objects.neuralNetwork;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class NerualNetwork {
@@ -22,14 +23,14 @@ public class NerualNetwork {
     }
 
     public Matrix feedForward(Matrix inputMatrix) {
+        System.out.println("INPUT:");
+        System.out.println(inputMatrix);
         for (int i = 0; i < weights.size(); i++) {
             this.input = inputMatrix;
             inputMatrix = Matrix.dot(inputMatrix, weights.get(i));
             inputMatrix.add(biases.get(i));
             inputMatrix.sigmoid();
             this.hiddenLayerStore.add(inputMatrix);
-
-            //not outputing a 1X1 matrix as it should in the given case in main
         }
         return inputMatrix;
     }
